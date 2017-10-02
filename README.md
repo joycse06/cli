@@ -292,8 +292,10 @@ module Foo
         class Configuration < Hanami::CLI::Command
           desc "Generate configuration"
 
-          def call(*)
-            puts "generated configuration"
+          option :apps, type: :array, default: [], desc: "Generate configuration for specific apps"
+
+          def call(**options)
+            puts "generated configuration for apps: #{options.fetch(:apps)}"
           end
         end
 
@@ -414,6 +416,13 @@ stopped - graceful: true
 stopped - graceful: false
 ```
 
+### Array options
+
+```shell
+% foo generate config --apps=web,api
+generated configuration for apps: ["web", "api"]
+```
+
 ### Subcommands
 
 ```shell
@@ -449,7 +458,7 @@ Commands:
 
 ```shell
 % foo g config
-generated configuration
+generated configuration for apps: []
 ```
 
 ### Callbacks
